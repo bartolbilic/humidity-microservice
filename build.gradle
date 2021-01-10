@@ -40,6 +40,16 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+jib {
+    extraDirectories {
+        paths {
+            path {
+                // copies the contents of 'src/main/extra-dir' into '/' on the container
+                from = file('src/main/resources')
+            }
+        }
+    }
+}
 
 test {
     useJUnitPlatform()

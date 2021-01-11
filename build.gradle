@@ -40,15 +40,28 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
 jib {
+    from {
+        image = 'anapsix/alpine-java'
+    }
+
     extraDirectories {
         paths {
             path {
-                // copies the contents of 'src/main/extra-dir' into '/' on the container
                 from = file('src/main/resources')
+                permissions = [
+                        '/wait-for-it.sh': '777',
+                        '/oh-my-go.sh': '777'
+                ]
             }
         }
     }
+
+    container {
+        entrypoint = ["./oh-my-go.sh"]
+    }
+
 }
 
 test {
